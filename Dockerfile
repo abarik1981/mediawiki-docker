@@ -1,9 +1,9 @@
-FROM debian:sid
-MAINTAINER Gabriel Wicke <gwicke@wikimedia.org>
+FROM debian:jessie
+MAINTAINER Amit Barik <wilson.amit@gmail.com>
 
 # Waiting in antiticipation for built-time arguments
 # https://github.com/docker/docker/issues/14634
-ENV MEDIAWIKI_VERSION wmf/1.27.0-wmf.9
+ENV MEDIAWIKI_VERSION wmf/1.28.0-wmf.16
 
 # XXX: Consider switching to nginx.
 RUN set -x; \
