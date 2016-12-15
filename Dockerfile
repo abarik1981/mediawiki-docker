@@ -1,9 +1,9 @@
 FROM debian:jessie
-MAINTAINER Amit Barik <wilson.amit@gmail.com>
+MAINTAINER Amit Barik (Original author: Gabriel Wicke <gwicke@wikimedia.org>)
 
 # Waiting in antiticipation for built-time arguments
 # https://github.com/docker/docker/issues/14634
-ENV MEDIAWIKI_VERSION wmf/1.28.0-wmf.16
+ENV MEDIAWIKI_VERSION REL1_28
 
 # XXX: Consider switching to nginx.
 RUN set -x; \
@@ -35,17 +35,17 @@ RUN set -x; \
         --depth 1 \
         -b $MEDIAWIKI_VERSION \
         https://gerrit.wikimedia.org/r/p/mediawiki/core.git \
-        /usr/src/mediawiki \
-    && cd /usr/src/mediawiki \
-    && git submodule update --init skins \
-    && git submodule update --init vendor \
-    && cd extensions \
+        /usr/src/mediawiki
+    # && cd /usr/src/mediawiki \
+    # && git submodule update --init skins \
+    # && git submodule update --init vendor \
+    # && cd extensions \
     # VisualEditor
     # TODO: make submodules shallow clones?
-    && git submodule update --init VisualEditor \
-    && cd VisualEditor \
-    && git checkout $MEDIAWIKI_VERSION \
-    && git submodule update --init
+    # && git submodule update --init VisualEditor \
+    # && cd VisualEditor \
+    # && git checkout $MEDIAWIKI_VERSION \
+    # && git submodule update --init
 
 COPY php.ini /usr/local/etc/php/conf.d/mediawiki.ini
 
