@@ -59,11 +59,11 @@ RUN set -x; \
     && git submodule update --init VisualEditor \
     && cd VisualEditor \
     && git checkout $MEDIAWIKI_VERSION \
-    && git submodule update --init \
-    && cd /usr/src/mediawiki/vendor \
-    && git submodule update --init --recursive \
-    && cd /usr/src/mediawiki/skins \
-    && git submodule update --init --recursive
+    && git submodule update --init 
+    #&& cd /usr/src/mediawiki/vendor \
+    #&& git submodule update --init --recursive \
+    #&& cd /usr/src/mediawiki/skins \
+    #&& git submodule update --init --recursive \
 
 COPY php.ini /usr/local/etc/php/conf.d/mediawiki.ini
 
