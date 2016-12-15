@@ -29,23 +29,41 @@ RUN set -x; \
 
 
 # MediaWiki setup
+## https://www.mediawiki.org/wiki/Download_from_Git#Fetch_external_libraries
 RUN set -x; \
     mkdir -p /usr/src \
     && git clone \
         --depth 1 \
         -b $MEDIAWIKI_VERSION \
         https://gerrit.wikimedia.org/r/p/mediawiki/core.git \
-        /usr/src/mediawiki
-    # && cd /usr/src/mediawiki \
-    # && git submodule update --init skins \
-    # && git submodule update --init vendor \
-    # && cd extensions \
-    # VisualEditor
-    # TODO: make submodules shallow clones?
-    # && git submodule update --init VisualEditor \
-    # && cd VisualEditor \
-    # && git checkout $MEDIAWIKI_VERSION \
-    # && git submodule update --init
+        /usr/src/mediawiki \
+    && rm -rf /usr/src/mediawiki/extensions \
+    && rm -rf /usr/src/mediawiki/skins \
+    && rm -rf /usr/src/mediawiki/vendor \
+    && git clone \
+        --depth 1 \
+        -b $MEDIAWIKI_VERSION \
+        https://gerrit.wikimedia.org/r/p/mediawiki/extensions.git \
+        /usr/src/mediawiki/extensions \
+    && git clone \
+        --depth 1 \
+        -b $MEDIAWIKI_VERSION \
+        https://gerrit.wikimedia.org/r/p/mediawiki/skins.git \
+        /usr/src/mediawiki/skins \
+    && git clone \
+        --depth 1 \
+        -b $MEDIAWIKI_VERSION \
+        https://gerrit.wikimedia.org/r/p/mediawiki/vendor.git \
+        /usr/src/mediawiki/vendor \
+    && cd /usr/src/mediawiki/extensions \
+    && git submodule update --init VisualEditor \
+    && cd VisualEditor \
+    && git checkout $MEDIAWIKI_VERSION \
+    && git submodule update --init \
+    && cd /usr/src/mediawiki/vendor \
+    && git submodule update --init --recursive \
+    && cd /usr/src/mediawiki/skins \
+    && git submodule update --init --recursive
 
 COPY php.ini /usr/local/etc/php/conf.d/mediawiki.ini
 
