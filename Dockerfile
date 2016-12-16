@@ -59,7 +59,11 @@ RUN set -x; \
     && git submodule update --init VisualEditor \
     && cd VisualEditor \
     && git checkout $MEDIAWIKI_VERSION \
-    && git submodule update --init 
+    && git submodule update --init \
+    && cd /usr/src/mediawiki/skins \
+    && git submodule update --init Vector \
+    && cd Vector \
+    && git checkout $MEDIAWIKI_VERSION
     #&& cd /usr/src/mediawiki/vendor \
     #&& git submodule update --init --recursive \
     #&& cd /usr/src/mediawiki/skins \
